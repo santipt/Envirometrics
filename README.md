@@ -1,2 +1,2 @@
-# Proyecto-Biometria-3A
-Proyecto de control de calidad del aire
+# Biometrics Project
+Air quality control project
