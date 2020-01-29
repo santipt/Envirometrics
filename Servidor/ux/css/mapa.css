@@ -1,0 +1,43 @@
+/*
+*
+*
+*    Autor: Adrián Heras Reche
+*
+*    Fecha de creación: 11/01/2020
+*
+*    Última actualización: 11/01/2020
+*
+*
+*
+* ==========================================
+* CSS personalizado
+* ==========================================
+*
+*
+*
+*
+*   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
+*   Color secundario:                   #393946
+*   Color resaltado secundario:         #515160
+*   Color terciario:                    #F0F0F0
+*   Color de fondo:                     #FAFAFA
+*   Texto sobre oscuro:                 #FFFFFF
+*   Texto sobre claro:                  #000000
+*
+*/
+
+form.seleccionHeatmap {
+    z-index: 1000;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background-color: #393946;
+    color: #FFFFFF;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+form div.radio {
+    margin-top: 4px;
+}

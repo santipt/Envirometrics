@@ -1,0 +1,423 @@
+<!--
+
+// TODO: Añadir numero de alertas en la campana. Código robado de la pagina Toys r us:
+
+
+<div class="nav-cart"> //carrito de la compra
+		<div class="mini-cart-icon"> //icono
+		    <img src="/_ui/responsive/common/images/carritohead.svg" class="birhcman-mini-cart-image" width="32" height="32">
+		</div>
+		<div class="mini-cart-count js-mini-cart-count">
+		    <span class="nav-items-total"> //utilizan un span para hacer la cuenta de objetos comprados
+		        0
+		    <span class="items-desktop hidden-xs hidden-sm hidden-md hidden-lg">
+		        &nbsp;Artículos
+		    </span>
+		    </span>
+		</div>
+</div>
+
+CSS
+@media (max-width: 639px)
+.navigation--middle .nav-cart .mini-cart-link .nav-items-total {
+    display: inline-block;
+    background-color: #f01446;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    color: #fff;
+    line-height: 20px;
+}
+
+
+TODO: function comprobarClave(){
+    clave1 = document.f1.clave1.value
+    clave2 = document.f1.clave2.value
+
+    if (clave1 == clave2)
+       alert("Las dos claves son iguales...\nRealizaríamos las acciones del caso positivo")
+    else
+       alert("Las dos claves son distintas...\nRealizaríamos las acciones del caso negativo")
+}
+
+TODO: https://bootsnipp.com/snippets/402bQ
+
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Autor: -->
+    <meta name="author" content="<Adrián Heras Reche y contribuidores de Bootstrap como Jason Doe">
+
+    <!--Descripcion: -->
+    <meta name="description" content="Página web de envirometrics SA, creada para curso 3A de GTI">
+    <title>Página de administración</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS del Nav Bar -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300|Work+Sans:300&display=swap" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="../proxy.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
+
+    <script>
+        var elProxy1 = new Proxy()
+
+        function inicializarMapa() {
+
+            // Creamos un objeto mapa y especificamos el elemento DOM donde se va a mostrar.
+            var map = new google.maps.Map(document.getElementById('mapa'), {
+                center: {
+                    lat: 38,
+                    lng: -0.16
+                },
+                scrollwheel: false,
+                zoom: 8,
+                zoomControl: true,
+                rotateControl: false,
+                mapTypeControl: true,
+                streetViewControl: false,
+            });
+
+            var heatmapData = [];
+
+            elProxy1.getTodasLasMedidas(function(res) {
+                for (let i = 0; i < res.length; i++) {
+                    //Añadir los valores de las medidas al mapa de color
+                    heatmapData.push({
+                        location: new google.maps.LatLng(res[i].latitud, res[i].longitud),
+                        weight: res[i].valorMedida
+                    });
+                }
+            })
+
+            console.log(heatmapData)
+            elProxy1.obtenerDatosEstacionGandia(function(res) {
+                var datosEstacion = res[res.length - 1]
+
+                var posicion = {
+                    lat: 38.968148,
+                    lng: -0.189648
+                }
+                var marker = new google.maps.Marker({
+                    position: posicion,
+                    icon: '../images/ic_estacion.png',
+                    map: map,
+                    title: "Estacion de Gandía"
+                })
+
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h2 id="firstHeading" class="firstHeading">Estación de Gandía</h1>' +
+                    '<p>Nivel CO: ' + datosEstacion.co + ' Hora: ' + datosEstacion.hora + '</p>' +
+                    '<p>Datos de la estación de Gandía,<a href=http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/datos_on_line.jsp>' +
+                    ' datos de la estación.</p>' +
+                    '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+
+            })
+
+            var colors = [
+                'rgb(102, 225, 0)',
+                'rgb(255, 0, 0)'
+            ]
+
+            var heatmap = new google.maps.visualization.HeatmapLayer({
+                data: heatmapData,
+                maxIntensity: 800,
+                radius: 50,
+            });
+
+            heatmap.setMap(map);
+            heatmap.set(gradient);
+        }
+
+    </script>
+
+</head>
+
+
+<!------------------------------------------------------------>
+<!--    Body    -->
+<!------------------------------------------------------------>
+
+<body>
+
+    <!-- Contenido -->
+    <div class="page-content index" id="content">
+
+        <!-- Search Bar -->
+        <div class="searchbar-dark">
+            <p class="empresaIndex">
+                <img src="../images/icon_env.png" alt="" width="auto" height="50px">
+                Envirometrics
+            </p>
+            <button class="buttonLogIn btn btn-outline-light" id="login-button" onclick="iniciarSesionWithCookie()">Log In</button>
+        </div>
+
+        <!-- Content -->
+
+        <div class="modal" id="loginModal">
+
+            <div class="row modal-content">
+                <div class="modal-header">
+                    <h1 class="h3 font-weight-normal titulo">Envirometrics</h1>
+                    <span class="close">&times;</span>
+                </div>
+
+                <div class="modal-body">
+                    <form class="col-12 loginForm">
+                        <div class="text-center mb-4">
+                            <img class="loginImg" src="../images/icon_env.png" alt="Imagen del logo" width="20%" height="20%">
+                        </div>
+
+                        <div class="form-label-group">
+                            <label for="inputEmail" class="loginLabel">Email address</label>
+                            <input type="text" id="inputEmail" class="form-control loginInput" placeholder="Email address" required="" autofocus="">
+                        </div>
+
+                        <div class="form-label-group">
+                            <label for="inputPassword" class="loginLabel">Password</label>
+                            <input type="password" id="inputPassword" class="form-control loginInput" placeholder="Password" required="">
+                            <div class="alert alert-danger" role="alert" id="errorCredenciales">
+                                Nombre de usuario o la contraseña son incorrectos.
+                            </div>
+                        </div>
+
+                        <div class="checkbox mb-3 loginLabel">
+                            <label>
+                                <input type="checkbox" value="remember-me" id="remember-me"> Remember me
+                            </label>
+                        </div>
+                        <input type="button" class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()" value="Sign in">
+                        <p class="mt-5 mb-3 text-muted text-center">© 2019 GTI</p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <a href="#informacion" class="chevron"><i class="fa fa-chevron-down fa-3x"></i></a>
+
+
+        <iframe src="mapa.html" frameborder="0" class="mapa"></iframe>
+        <!--<div class="mapa" id="mapa"></div>-->
+
+        <div class="publicidad" id="informacion">
+            <h1>
+                Mapas de contaminación desde la comodidad de tu casa
+            </h1>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <i class="fa fa-mobile fa-4x indexIcon"></i> <br />
+                    Envirometrics te ofrece una aplicación que cumple todas tus necesidades y te permite viajar en taxi de manera eficiente evitando rutas contaminadas con varios gases nocivos como el monóxido de carbono o el metano.
+                </div>
+                <div class="col-sm-4">
+                    <i class="fa fa-map fa-3x indexIcon"></i> <br />
+                    Envirometrics te ofrece un mapa de contaminación actualizado cada 24 horas para que puedas evitar las rutas más contaminadas durante tus trayectos diarios.
+                </div>
+                <div class="col-sm-4">
+                    <i class="fa fa-camera fa-3x indexIcon"></i> <br />
+                    Envirometrics te ofrece la posibilidad de saber la contaminación del ambiente con solo tomar una foto al aire. Esto permite una mayor rápidez de actuación de cara a evitar los trayectos con mayor contaminación en tu ciudad.
+                </div>
+            </div>
+        </div>
+
+        <div class="informacion">
+            <h1>Información sobre los contaminantes que medimos</h1>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <!--SO2-->
+                    <img src="../images/so2.png" alt="SO2" height="75px"> <br />
+                    <p class="titulo">Dioxido de azufre</p>
+                    Es un gas incoloro, irritante, no inflamable y con olor penetrante. Principalmente afecta a los pulmones, provocando ataques de tos. En dosis mayores puede provocar irritación del tracto respiratorio, bronquitis y congestión de los conductos bronquiales. Una exposición crónica puede provocar efectos adversos sobre la mortalidad, la morbilidad y la función pulmonar
+                    <p>Valor límite recomendado: 2 ppm</p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <!--O3-->
+                    <img src="../images/o3.png" alt="O3" height="75px"> <br />
+                    <p class="titulo">Ozono</p>
+                    Es un gas incoloro, con olor fuerte. En función del tiempo de exposición y la concentración del gas los efectos secundarios varian entre irritación de ojos, nariz y garganta, reducida adaptación a la oscuridad, náuses y dolor de cabeza; y edema pulmonar y susceptibilidad a infecciones respiratorias.
+                    <p>Valor límite recomendado: 0.1 ppm</p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <!--CO-->
+                    <img src="../images/co.png" alt="CO" height="75px"> <br />
+                    <p class="titulo">Monóxido de carbono</p>
+                    Es un gas incoloro y altamente tóxico. Si se respira a niveles elevados puede causar la muerte ya que sustiye al oxígeno en la hemoglobina de la sangre. Un exposición con una concentración del 0,4% es mortal a la hora
+                    <p>Valor límite recomendado: 50 ppm</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <!--NO2-->
+                    <img src="../images/no2.png" alt="NO2" height="75px"> <br />
+                    <p class="titulo">Dioxido de nitrogeno</p>
+                    Es un gas de un color marrón-amarillento. Se produce en la combustión a altas temperaturas, como en los vehículos y centrales electricas. Es un contaminante frecuente en las zonas urbanas. Es un gas tóxico, irritante y el precursor de la formación de las partículas de nitrato. Estas particulas producen elevados niveles de PM-2.5 en el ambiente
+                    <p>Valor límite recomendado: 0.1 ppm</p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <!--NH3-->
+                    <img src="../images/iaq.png" alt="NH3" height="75px"> <br />
+                    <p class="titulo">Calidad del aire de interior</p>
+                    La Calidad del aire interior puede ser afectada por gases, (incluyendo CO, Rn, humo del tabaco), material particulado, microbios contaminantes (moho, bacterias) o cualquier material o factor estresante de energía que puede inducir a condiciones adversas para la salud. Una mala calidad del aire se ha asociado con el SEE (síndrome del edifcio enfermo), una productividad menor y un aprendizaje dañado en escuelas.                    
+                    <p>Valor límite recomendado: 100 ppm</p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <!--H2S-->
+                    <img src="../images/h2s.png" alt="H2S" height="75px"> <br />
+                    <p class="titulo">Ácido sulfhídrico</p>
+                    Es un gas incoloro con un fuerte hedor a huevos podridos. Es un gas muy venenoso, corrosivo e inflamable. En bajas concentraciones este gas puede provocar irritación en lso ojos y el sistema respiratorio, mareos, falta de aire y líquido en los pulmones. En altas concentraciones puede producir un colapso inmediato con perdida de respiración y una alta probabilidad de morir. En caso de no morir, es altamente probable acabar con necrosis o un edema cerebral.
+                    <p>Valor límite recomendado: 10 ppm</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sobreNosotros">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img src="../images/genteTrabaja.jpg" alt="" class="genteTrabajaImagen">
+                </div>
+                <div class="col-lg-6">
+                    <h1>Sobre Nosotros</h1>
+                    <p>
+                        Envirometrics es una empresa compuesta por 4 estudiantes de la Universidad Politécnica de Valencia cuya metodología de trabajo está basada en Scrum. Cada dos semanas se revisan los cambios que le hemos añadido a nuestro producto y
+                        pensamos en futuras mejoras. Nuestro ambiente de trabajo está basado en el trabajo en equipo y todos los miembros se ayudan entre sí. Nuestro objetivo a lograr con este proyecto es mejorar la salud media de los ciudadanos, debido a las
+                        altas medidas de contaminación en ciudades tan grandes como Madrid, donde puede verse cierto smog.
+                    </p>
+
+                    <img src="../images/google_play_download.png" alt="" width="50%">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--        Scripts         -->
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- Bootstrap.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <!-- SCRIPTS -->
+    <script>
+        //-------------------------------------------------------------------
+        // Para el modal
+        //-------------------------------------------------------------------
+        var modal = document.getElementById("loginModal");
+        var btn = document.getElementById("login-button");
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
+        //creamos el Proxy
+        var elProxy = new Proxy();
+
+        // ------------------------------------------------------------------
+        // quanEsCarrega()
+        // ------------------------------------------------------------------
+        function quanEsCarrega() {
+
+            console.log("Plana UX carregada.")
+
+        }
+
+        // ------------------------------------------------------------------
+        // nombre:Texto, password:Texto -->
+        // iniciarSesion()
+        // Cookie
+        // ------------------------------------------------------------------
+        async function iniciarSesion(_nombre, _password) {
+
+            console.log(_nombre + " " + _password);
+
+            var json = {
+                nombre: _nombre,
+                password: _password
+            }
+
+            console.log(json)
+
+            elProxy.iniciarSesion(json, function(res) {
+
+                if (res == true) {
+                    if (document.getElementById("remember-me").checked) {
+                        document.cookie = JSON.stringify(json);
+                    }
+                    window.location.replace('admin.html');
+                } else {
+                    //alert("Credenciales erróneas")
+                    $('#errorCredenciales').show();
+                }
+                console.log(res)
+            })
+
+            console.log("Voy a iniciarSesion")
+
+        }
+
+        // ------------------------------------------------------------------
+        // iniciarSesionOnLoad()
+        // ------------------------------------------------------------------
+        async function iniciarSesionWithCookie() {
+            if (!document.cookie) {
+                modal.style.display = "block";
+                $('#errorCredenciales').hide();
+            } else {
+                var laCookie = JSON.parse(document.cookie)
+                var nombre = laCookie.nombre;
+                var password = laCookie.password;
+                await iniciarSesion(nombre, password)
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // iniciarSesionOnClickButton()
+        // ------------------------------------------------------------------
+        async function iniciarSesionOnClickButton() {
+            var nombre = document.getElementById("inputEmail").value;
+            var password = document.getElementById("inputPassword").value;
+            await iniciarSesion(nombre, password)
+        }
+
+    </script>
+</body>
+
+</html>

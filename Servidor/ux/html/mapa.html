@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js" integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ==" crossorigin=""></script>
+
+    <link rel="stylesheet" href="../css/mapa.css">
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+    </style>
+
+</head>
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+<body onload="introducirMedidasAlMapaOnLoad()">
+    <form class="seleccionHeatmap">
+        <label class="titulo">Selección de contaminante</label>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioIAQ" onclick="heatmap(1)" checked>IAQ</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioCO" onclick="heatmap(2)">CO</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioSO2" onclick="heatmap(3)">SO2</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioO3" onclick="heatmap(4)">O3</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioNO2" onclick="heatmap(5)">NO2</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioH2S" onclick="heatmap(6)">H2S</label>
+        </div>
+    </form>
+
+    <div id="map"></div>
+
+    <!---------------------------------------------------------------------------->
+    <!--     Scripts     -->
+    <!---------------------------------------------------------------------------->
+    <script src="../heatmap.min.js"></script>
+    <script src="../leaflet-heatmap.js"></script>
+
+    <script type="text/javascript" src="../proxy.js"></script>
+    <script src="../blundle.js"></script>
+
+    <script>
+        var elProxy = new Proxy()
+        var baseLayer = L.esri.basemapLayer('Streets');
+        var cfg = {
+            "radius": 30,
+            "maxOpacity": .8,
+            "scaleRadius": false,
+            "useLocalExtrema": false,
+            latField: 'latitud',
+            lngField: 'longitud',
+            valueField: 'valorMedida'
+        };
+
+        var heatmapLayer = new HeatmapOverlay(cfg);
+
+        var map = new L.Map('map', {
+            center: new L.LatLng(38.98001, -0.151),
+            zoom: 13,
+            layers: [baseLayer, heatmapLayer],
+            scrollWheelZoom: false
+        });
+
+        function introducirMedidasAlMapaOnLoad() {
+            elProxy.buscarUnTipoDeMedidas(1, function(res) {
+                var heatmapData = {
+                    max: 100,
+                    data: res
+                }
+                heatmapLayer.setData(heatmapData);
+            })
+        }
+
+        function heatmap(valor) {
+            elProxy.buscarUnTipoDeMedidas(valor, function(res) {
+                var heatmapData = {
+                    max: 100,
+                    data: res
+                }
+                heatmapLayer.setData(heatmapData);
+            })
+        }
+
+        function aQueEstamosHoy(){
+          var ahora = Date.now();
+          var hoy = new Date(ahora);
+          var dia = hoy.getDate();
+          var mes = hoy.getMonth() + 1;
+          var any = hoy.getFullYear();
+          return ("" + dia + "/" + mes + "/" + any);
+        }
+
+        var print = L.easyPrint({
+            tileLayer: baseLayer,
+            sizeModes: ['A4Landscape'],
+            filename: aQueEstamosHoy(),
+            exportOnly: true
+        }).addTo(map);
+
+    </script>
+</body>
+
+</html>

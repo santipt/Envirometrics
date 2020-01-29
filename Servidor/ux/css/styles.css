@@ -1,0 +1,253 @@
+/*
+*
+*
+*    Autor: Adrián Heras Reche
+*
+*    Fecha de creación: 29/10/2019
+*
+*    Última actualización: 01/11/2019
+*
+*
+*
+* ==========================================
+* CSS personalizado
+* ==========================================
+*
+*
+*
+*
+*   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
+*   Color secundario:                   #393946
+*   Color resaltado secundario:         #515160
+*   Color terciario:                    #F0F0F0
+*   Color de fondo:                     #FAFAFA
+*   Texto sobre oscuro:                 #FFFFFF
+*   Texto sobre claro:                  #000000
+*
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300|Work+Sans:300&display=swap');
+
+body {
+    background-color: #FAFAFA;
+    font-family: 'Work Sans', 'Roboto', sans-serif;
+}
+
+/*                 Sidebar                     */
+.page-content {
+    width: calc(100% - 17rem);
+    margin-left: 18rem;
+    transition: all 0.4s;
+}
+
+.page-content.index {
+    margin: 0;
+    width: 100%;
+}
+
+.vertical-nav {
+    min-width: 17rem;
+    width: 17rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+div#sidebar {
+    background-color: #393946;
+}
+
+.adminImg {
+    margin: 15%;
+    margin-top: 5%;
+    margin-bottom: 0;
+}
+
+.nav-item:hover {
+    background-color: #515160;
+}
+
+.nav-item.current {
+    background-color: #515160;
+}
+
+.adminSidebar {
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+.adminSidebar:hover {
+    color: #FFFFFF;
+}
+
+.adminIcon {
+    color: #FFFFFF;
+    width: 1em;
+    height: 1em;
+    margin-right: 1em;
+}
+
+
+/*                 Searchbar                     */
+
+.searchbar {
+    background-color: #F0F0F0;
+    text-align: right;
+    margin-left: -1em;
+    padding: 1em 0.5em;
+    width: 100%;
+}
+
+.searchbar-dark {
+    background-color: #393946;
+    text-align: right;
+    padding: 1em 0.5em;
+    width: 100%;
+}
+
+
+.searchIcon-dark {
+    color: #FFFFFF;
+    margin: 0 0.25em;
+}
+
+.searchIcon {
+    color: #000000;
+    margin: 0 0.25em;
+    height: 2.5em;
+    width: 2.5em;
+}
+
+p.empresa {
+    color: #FFFFFF;
+    font-size: 32px;
+    text-align: center;
+}
+
+p.empresaIndex {
+    display: inline;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #FFFFFF;
+    font-size: 32px;
+    margin-top: 0.25em;
+    margin-left: 1em;
+}
+
+/*                  TopBar                    */
+@media (max-width:400px) {
+    p.empresaIndex {
+        font-size: 18px;
+        margin-top: 0.5em;
+        margin-left: 0.5em;
+    }
+
+    p img {
+        width: auto;
+        height: 40px;
+    }
+}
+
+.buttonLogIn {
+    margin: 0 0.5em 0 0.25em;
+    color: #F0F0F0;
+    background-color: #00B49A;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #00B49A;
+}
+
+.buttonLogIn:hover {
+    color: #F0F0F0;
+    background-color: #00957f;
+    border-color: #00957f;
+}
+
+.buttonLogOut {
+    margin: 0 0.5em 0 0.25em;
+    color: #393946;
+    background-color: #F0F0F0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #393946;
+}
+
+.buttonLogOut:hover {
+    color: #F0F0F0;
+    background-color: #393946;
+    border-color: #515160;
+}
+
+#content {
+    background-color: #FAFAFA;
+    color: #000000;
+}
+
+div.dropdown {
+    display: inline;
+}
+
+/*                Alerta 24h             */
+#alerta24horas {
+    color: #ff5858;
+}
+
+/*              Estilo de los botones              */
+.row.editarEliminar {
+    position: absolute;
+    right: 1em;
+}
+
+.btn-primary {
+    background-color: #00B49A;
+    color: #FAFAFA;
+    border: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: #00957f;
+    color: #FAFAFA;
+    border: none;
+    box-shadow: none;
+    outline: -webkit-focus-ring-color auto 1px
+}
+
+.btn-primary:disabled {
+    color: #b4b4b4;
+    background-color: #e3e3e3;
+}
+
+.btn-primary.editar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 1em;
+}
+
+.btn-primary.eliminar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 2em;
+}
+
+
+.row.botones {
+    margin: 3em 1em;
+    margin-top: 5em;
+}
+
+.row.botones button {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+}

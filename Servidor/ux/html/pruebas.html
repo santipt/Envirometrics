@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src="../proxy.js"></script>
+</head>
+
+<body>
+
+  <button type="button" onclick="abrirVentana()">Try it</button>
+  <input type="file" onchange="miJavascript()">
+
+  <script>
+    function miJavascript() {
+      alert('fichero elegido');
+    }
+
+    function abrirVentana() {
+      window.open("C:/Users/Emilio", "nuevo", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, tittlebar=no, width=400, height=400");
+    }
+    var elProxy = new Proxy();
+
+    function getUltimaMedidaDeUnUsuario() {
+      elProxy.getUsuarios(function(listaUsuarios) {
+        elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
+          console.log(res)
+        })
+      })
+    }
+
+    function getTodasLasMedidas() {
+      elProxy.getTodasLasMedidas(function(res) {
+        console.log(res)
+      })
+    }
+
+    function getTodasLasMedidasDeUnUsuarioPorEmail() {
+      elProxy.getTodasLasMedidasDeUnUsuarioPorEmail("emilioxeraco@gmail.com", function(res) {
+        console.log(res);
+      })
+    }
+
+    function darAltaTaxista() {
+      elProxy.darAltaTaxista({
+        email: "elAdrian@taxista.com",
+        password: "1234",
+        telefono: "21212121"
+      }, function(res) {
+        console.log(res)
+      })
+    }
+
+    function getTaxistas() {
+      elProxy.getUsuarios(function(res) {
+        var taxistas = [];
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].email.includes("@taxista.com")) {
+            taxistas.push(res[i])
+            console.log(taxistas[i - 1].email)
+            console.log(i)
+          }
+        }
+        console.log(taxistas)
+
+      });
+    }
+
+    function darAltaSensor() {
+      elProxy.darAltaSensor(1, function(res) {
+
+      })
+    }
+
+    function darSensorAUsuario() {
+      elProxy.darSensorAUsuario({
+        idSensor: 3,
+        idUsuario: 3
+      }, function(res) {
+        console.log(res);
+      })
+    }
+
+    function buscarRelacionesUsuarioSensor() {
+      elProxy.buscarRelacionesUsuarioSensor(function(res) {
+        console.log(res)
+      })
+    }
+
+    function obtenerDatosEstacionGandia() {
+      elProxy.obtenerDatosEstacionGandia(function(res) {
+        console.log(res[res.length - 1])
+      })
+    }
+
+    function todoLoQueQuieroProbar() {
+      elProxy.darAltaTaxista({
+        email: "elAdrian@taxista.com",
+        password: "1234",
+        telefono: "21212121"
+      }, function(res) {
+        elProxy.darAltaSensor(1, function(res2) {
+          elProxy.darSensorAUsuario({
+            idSensor: 2,
+            idUsuario: 2
+          }, function(res3) {
+
+          })
+        })
+      })
+    }
+
+    function getTodosLosTaxistas() {
+      elProxy.getUsuarios(function(usuarios) {
+        for (var i = 0; i < usuarios.length; i++) {
+          if (usuarios[i].email.includes("@taxista.com")) {
+            console.log(usuarios[i])
+          }
+        }
+      })
+    }
+
+    function cambiarTelefono() {
+      elProxy.cambiarTelefono({
+        email: "emiliet@xd.com",
+        telefono: "9323"
+      }, function(res) {
+        console.log(res);
+      })
+    }
+
+    function borrarUsuario() {
+      elProxy.borrarUsuario(2, function(res) {
+        console.log(res);
+      })
+    }
+
+    function borrarSensor() {
+      elProxy.borrarSensor(1, function(res) {
+        console.log(res);
+      })
+    }
+
+    function buscarUnTipoDeMedidas() {
+      elProxy.buscarUnTipoDeMedidas(1, function(res) {
+        console.log(res);
+      })
+    }
+
+    function distanciaRecorridaEnUnDia() {
+      elProxy.distanciaRecorridaEnUnDia(1, function(res) {
+        console.log(res);
+      })
+    }
+
+    function buscarMedidasDelUltimoDiaDeUnUsuario() {
+      elProxy.buscarMedidasDelUltimoDiaDeUnUsuario(1, function(res) {
+        console.log(res);
+      })
+    }
+
+    function elUsuarioTieneMedidas() {
+      elProxy.elUsuarioTieneMedidas(1, function(res) {
+        console.log(res);
+      })
+    }
+
+    function taxistasFiltradosQueNoHanEnviadoEn24H() {
+      elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
+        console.log(res);
+      })
+    }
+
+    function getListaNombresMapas() {
+      elProxy.getListaNombresMapas(function(res) {
+        console.log(res);
+      })
+    }
+
+    function descargarMapa() {
+      elProxy.descargarMapa("lol.pdf", "lol.pdf")
+    }
+  </script>
+
+</body>
+
+</html>

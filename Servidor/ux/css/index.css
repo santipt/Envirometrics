@@ -1,0 +1,260 @@
+/*
+*
+*
+*    Autor: Adrián Heras Reche
+*
+*    Fecha de creación: 12/11/2019
+*
+*    Última actualización: 12/11/2019
+*
+*
+*
+* ==========================================
+* CSS personalizado
+* ==========================================
+*
+*
+*
+*
+*   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
+*   Color secundario:                   #393946
+*   Color resaltado secundario:         #515160
+*   Color terciario:                    #F0F0F0
+*   Color de fondo:                     #FAFAFA
+*   Texto sobre oscuro:                 #FFFFFF
+*   Texto sobre claro:                  #000000
+*
+*/
+
+/*                   Main                      */
+a.chevron {
+    position: absolute;
+    z-index: 1;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50px;
+
+    color: #393946;
+}
+
+a.chevron:hover,
+a.chevron:active,
+a.chevron:focus {
+    color: #515160;
+}
+
+div.mapa {
+    width: 100%;
+    height: 90vh;
+    /*vh: tamaño respecto al aspecto de la pantalla. 100vh = a toda la pantalla*/
+}
+
+iframe.mapa {
+    width: 100%;
+    height: 90vh;
+    border: 0;
+}
+
+/*                   Login                      */
+
+@media (min-width:576px) {
+    .loginForm {
+        padding-left: 0 !important;
+        padding-right: 0;
+    }
+}
+
+.loginForm.col-12 {
+    padding: 0;
+    text-align: left;
+}
+
+.loginLabel {
+    margin: 8px 0 0 0;
+}
+
+.loginButton {
+    background-color: #00B49A;
+    border: none;
+}
+
+.loginButton:hover {
+    background-color: #00957f;
+    border: none;
+}
+
+.loginButton:focus,
+.loginButton.focus {
+    background-color: #00957f !important;
+    border: none;
+}
+
+.loginButton:active {
+    background-color: #00957f;
+    border: none;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+/*                   Modal Login                    */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 10px 16px;
+    background-color: #393946;
+    color: white;
+}
+
+.modal-header .titulo {
+    margin: 0;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    width: 40%;
+    text-align: right;
+    border: none;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.modal-body {
+    padding: 20px;
+    height: 29em;
+}
+
+@media (max-width:992px) {
+    .modal-content {
+        width: 80%;
+    }
+}
+
+.alert {
+    margin: 1em 0;
+}
+
+.close {
+    color: #FFFFFF;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #F0F0F0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+/*                   Informacion contaminantes                    */
+
+div.informacion {
+    background-color: #515160;
+    color: #FAFAFA;
+
+    padding: 3em 5em;
+    text-align: center;
+}
+
+.informacion p {
+    margin: 0.25em 0;
+    font-weight: bold;
+}
+
+.informacion p.titulo {
+    font-size: 30px
+}
+
+div.informacion .row div {
+    margin: 1em 0;
+}
+
+/*                   Publicidad aplicacion                    */
+
+.publicidad {
+    background-color: #FAFAFA;
+    color: #000000;
+    padding: 3em 5em;
+    text-align: center;
+}
+
+.publicidad h1 {
+    margin-bottom: 1em;
+}
+
+.publicidad .col-sm-4 {
+    padding: 0em 2em;
+}
+
+.publicidad .indexIcon {
+    margin: 1rem 2rem;
+}
+
+.publicidad .fa-mobile {
+    margin-top: 0;
+}
+
+/*                   Sobre nosotros                    */
+
+.sobreNosotros {
+    background-color: #FAFAFA;
+    color: #000000;
+    padding: 3em 5em;
+    text-align: center;
+}
+
+.sobreNosotros h1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.sobreNosotros .col-6 {
+    height: 20em;
+}
+
+.sobreNosotros img.genteTrabajaImagen {
+    width: inherit;
+}

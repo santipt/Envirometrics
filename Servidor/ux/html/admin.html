@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Autor: -->
+    <meta name="author" content="<Adrián Heras Reche y contribuidores de Bootstrap como Jason Doe">
+
+    <!--Descripcion: -->
+    <meta name="description" content="Página web de envirometrics SA, creada para curso 3A de GTI">
+    <title>Página de administración</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS del Nav Bar -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+
+<!------------------------------------------------------------>
+<!--    Body    -->
+<!------------------------------------------------------------>
+
+<body onload="getOnLoad()">
+
+    <!-- Vertical navbar -->
+    <div class="vertical-nav" id="sidebar">
+
+        <!-- Logo del sidebar-->
+        <div class="py-4 px-3 mb-4">
+            <div class="media d-flex align-items-center">
+                <img src="../images/icon_env.png" alt="Logo de la empresa" height="70%" width="70%" class="adminImg">
+            </div>
+            <p class="empresa">Envirometrics</p>
+        </div>
+        <!-- Sidebar -->
+        <ul class="nav flex-column mb-0">
+            <li class="nav-item current">
+                <a href="admin.html" class="nav-link adminSidebar">
+                    <i class="fa fa-home fa-lg adminIcon" style="margin-right: 0.5em"></i>
+                    Medidas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="taxistas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-taxi fa-sm adminIcon"></i>
+                    Taxistas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="sensores.html" class="nav-link adminSidebar">
+                    <i class="fa fa-balance-scale fa-sm adminIcon"></i>
+                    Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="mapas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-map fa-sm adminIcon"></i>
+                    Mapas
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenido -->
+    <div class="page-content" id="content">
+
+        <!-- Search Bar -->
+        <div class="searchbar">
+            <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+
+            <div class="row informacionCentral">
+                <div class="col-4">
+                    <div class="cuadradoCentral">
+                        <div>
+                            <p>Usuarios registrados</p>
+                        </div>
+                        <span class="numero" id="numeroUsuarios">
+                            #
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="cuadradoCentral">
+                        <div>
+                            <p>Taxistas contratados</p>
+                        </div>
+                        <span class="numero" id="numeroTaxistas">
+                            #
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="cuadradoCentral">
+                        <div>
+                            <p>Sensores activos</p>
+                        </div>
+                        <span class="numero" id="sensores">
+                            1
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de ultimas medidas -->
+            <div class="row tabla">
+
+                <p>Últimas medidas</p>
+
+                <table class="table" id="tablaMedidas">
+                    <thead>
+                        <tr>
+                            <th>Medida</th>
+                            <th>Tipo de medida</th>
+                            <th>Valor de medida</th>
+                            <th>Tiempo</th>
+                            <th>Latitud</th>
+                            <th>Longitud</th>
+                            <th>Taxista</th>
+                            <th>Alerta 24h</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--        Scripts         -->
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- Bootstrap.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- JS del Nav Bar -->
+    <script type="text/javascript" src="../proxy.js"></script>
+
+    <script>
+        // creamos el Proxy
+        var elProxy = new Proxy();
+
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
+        /*function getUltimaMedidaDeUnUsuario() {
+            elProxy.getUsuarios(function(listaUsuarios) {
+                console.log("lista: " + listaUsuarios.length);
+                elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
+                    document.getElementById("medida").innerHTML = res.valorMedida;
+                    console.log(res)
+                })
+            })
+        }*/
+
+        // ------------------------------------------------------------------
+        // getUsuariosRegistrados
+        // ------------------------------------------------------------------
+
+        function getUsuariosRegistrados() {
+            elProxy.getUsuarios(function(res) {
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+                    }
+                }
+                elProxy.getUsuarios(function(res) {
+                    var usuariosNoTaxistas = res.length - taxistas.length;
+                    document.getElementById("numeroUsuarios").innerHTML = usuariosNoTaxistas;
+                })
+            })
+        }
+
+        // ------------------------------------------------------------------
+        // getCuantosUsuariosHay()
+        // ------------------------------------------------------------------
+        function getCuantosUsuariosHay() {
+            elProxy.getUsuarios(function(res) {
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+                    }
+                }
+                document.getElementById("numeroTaxistas").innerHTML = taxistas.length;
+            })
+        }
+
+        // ------------------------------------------------------------------
+        // getOnLoad()
+        // ------------------------------------------------------------------
+        function getOnLoad() {
+
+            getUsuariosRegistrados();
+            getCuantosUsuariosHay();
+            getUltimaMedidaDeTodosLosUsuarios();
+        }
+
+        // ------------------------------------------------------------------
+        // usuariosSinMedidasEn24H()
+        // ------------------------------------------------------------------
+        /*function usuariosSinMedidasEn24H() {
+            elProxy.getUsuarios(function(listaUsuarios) {
+                for (var i = 0; i < listaUsuarios.length; i++) {
+                    elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
+                        var now = Date.now();
+                        if ((now - medida.tiempo) > 300000) {
+                            //if ((now - medida.tiempo) > 86400000) {
+                            console.log("Usuario sin emitir durante de 5 minutos:")
+                            console.log(medida.idUsuario);
+
+                            var string = "El usuario de ID " + medida.idUsuario + " lleva más de 24h sin emitir medidas";
+                        }
+                    })
+                }
+            })
+        } */
+
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
+        function getUltimaMedidaDeTodosLosUsuarios() {
+
+            elProxy.getUsuarios(function(listaUsuarios) {
+
+                for (var i = 0; i < listaUsuarios.length; i++) {
+                    elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
+
+                        var date = new Date(medida.tiempo);
+                        //document.getElementById("pruebaFecha").innerHTML = date.toDateString();
+                        console.log(date.toDateString());
+
+                        var newRow = $("<tr>");
+                        var cols = "";
+                        cols += '<td scope="row">' + medida.idMedida + '</td>';
+                        cols += '<td>' + medida.idTipoMedida + '</td>';
+                        cols += '<td>' + medida.valorMedida + '</td>';
+                        cols += '<td>' + date.getDate()+'/'+  date.getMonth()+'/'+ date.getFullYear()+'</td>';
+                        cols += '<td>' + medida.latitud + '</td>';
+                        cols += '<td>' + medida.longitud + '</td>';
+                        cols += '<td>' + medida.idUsuario + '</td>';
+                        var now = Date.now();
+                        if ((now - medida.tiempo) > 86400000) {
+
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
+
+                        } else {
+                            cols += '<td>' + '</td>';
+                        }
+
+                        newRow.append(cols);
+                        $("#tablaMedidas").append(newRow);
+                    })
+                }
+
+            })
+        }
+
+        // ------------------------------------------------------------------
+        // logOut()
+        // --> Cookie
+        // ------------------------------------------------------------------
+        function logOut() {
+            document.cookie = "";
+            window.location.replace('index.html');
+        }
+
+    </script>
+
+</body>
+
+</html>

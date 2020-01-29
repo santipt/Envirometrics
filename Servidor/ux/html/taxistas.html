@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Autor: -->
+    <meta name="author" content="<Adrián Heras Reche y contribuidores de Bootstrap como Jason Doe">
+
+    <!--Descripcion: -->
+    <meta name="description" content="Página web de envirometrics SA, creada para curso 3A de GTI">
+    <title>Página de administración</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS del Nav Bar -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/taxistas.css">
+
+</head>
+
+
+<!------------------------------------------------------------>
+<!--    Body    -->
+<!------------------------------------------------------------>
+
+<body onload="getOnLoad()">
+
+    <!-- Vertical navbar -->
+    <div class="vertical-nav" id="sidebar">
+
+        <!-- Logo del sidebar-->
+        <div class="py-4 px-3 mb-4">
+            <div class="media d-flex align-items-center">
+                <img src="../images/icon_env.png" alt="Logo de la empresa" height="70%" width="70%" class="adminImg">
+            </div>
+            <p class="empresa">Envirometrics</p>
+        </div>
+        <!-- Sidebar -->
+        <ul class="nav flex-column mb-0">
+            <li class="nav-item">
+                <a href="admin.html" class="nav-link adminSidebar">
+                    <i class="fa fa-home fa-lg adminIcon" style="margin-right: 0.5em"></i>
+                    Medidas
+                </a>
+            </li>
+            <li class="nav-item current">
+                <a href="taxistas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-taxi fa-sm adminIcon"></i>
+                    Taxistas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="sensores.html" class="nav-link adminSidebar">
+                    <i class="fa fa-balance-scale fa-sm adminIcon"></i>
+                    Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="mapas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-map fa-sm adminIcon"></i>
+                    Mapas
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenido -->
+    <div class="page-content" id="content">
+
+        <!-- Search Bar -->
+        <div class="searchbar">
+            <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
+        </div>
+
+        <!-- Taxistas -->
+        <div class="modal" id="nuevoTaxistaModal">
+
+            <div class="row modal-content">
+                <div class="modal-header">Registro taxista
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                </div>
+
+                <div class="modal-body">
+                    <form class="col-12 introducirTaxistaForm">
+
+                        <div class="form-label-group row">
+                            <label for="" class="email col-6">E-mail:</label>
+                            <input type="text" id="inputEmail" class="form-control col-6" placeholder="correo@taxista.com" required="" autofocus="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorEmail">
+                            El correo debe acabar en @taxista.com para funcionar
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="telefono col-6">Telefono:</label>
+                            <input type="number" id="inputTelefono" class="form-control col-6" placeholder="123456789" required="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorTelefono">
+                            Introduce un número de teléfono
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="password col-6">Contraseña:</label>
+                            <input type="password" id="inputPassword" class="form-control col-6" placeholder="Contraseña" required="">
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="repetirPassword col-6">Repetir Contraseña:</label>
+                            <input type="password" id="inputRepetirPassword" class="form-control col-6" placeholder="Contraseña" required="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorPassword">
+                            Las contraseñas deben coincidir para poder registrar a alguien
+                        </div>
+
+                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaTaxista()" value="Registrar">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="modal" id="EditarTaxistaModal">
+
+            <div class="row modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                </div>
+
+                <div class="modal-body">
+                    <form class="col-12 introducirTaxistaForm">
+
+                        <div class="form-label-group row">
+                            <label for="" class="email col-6">Cambiar e-mail:</label>
+                            <input type="text" id="cambiarEmail" class="form-control col-6" required="" autofocus="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorEditarEmail">
+                            El correo debe acabar en @taxista.com para funcionar
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="telefono col-6">Cambiar telefono:</label>
+                            <input type="number" id="cambiarTelefono" class="form-control col-6" required="" autofocus="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorEditarTelefono">
+                            Introduce un número de teléfono
+                        </div>
+
+                        <hr />
+
+                        <div class="form-label-group row">
+                            <a class="" id="botonCambiarContrasenya" onclick="mostrarCambiarContrasenya()">Cambiar contraseña</a>
+                        </div>
+                        <div class="form-label-group row cambiarContrasenya">
+                            <label for="" class="password col-6">Cambiar contraseña:</label>
+                            <input type="password" id="cambiarPassword" class="form-control col-6" placeholder="Cambiar contraseña" autofocus="">
+                        </div>
+
+                        <div class="form-label-group row cambiarContrasenya">
+                            <label for="" class="repetirPassword col-6">Repetir Contraseña:</label>
+                            <input type="password" id="cambiarRepetirPassword" class="form-control col-6" placeholder="Repetir contraseña">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorEditarPassword">
+                            Las contraseñas deben coincidir para poder cambiarla
+                        </div>
+
+                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="editarTaxista()" value="Editar">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="taxistas">
+
+            <div class="row editarEliminar">
+                <button class="editar btn btn-primary" id="editar" disabled>editar</button>
+                <button class="eliminar btn btn-primary" id="eliminar" onclick="borrarTaxista()" disabled>eliminar</button>
+            </div>
+
+            <div class="row datos">
+                <label for="" class="id">ID:</label>
+                <label for="" class="id" id="idLabel"></label>
+            </div>
+
+            <div class="row datos">
+                <label for="" class="email">E-mail:</label>
+                <label for="" class="email" id="emailLabel"></label>
+            </div>
+
+            <div class="row datos">
+                <label for="" class="telefono">Telefono:</label>
+                <label for="" class="telefono" id="telefonoLabel"></label>
+            </div>
+
+        </div>
+
+        <!-- Tabla de taxistas -->
+        <div class="row tablaTaxistas botones">
+            <div class="col-8">
+                <p>Todos los taxistas</p>
+                <button class="btn btn-primary" id="introducirNuevoTaxista"> Añadir </button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
+            </div>
+            <table id="tablaTaxistas" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>E-mail</th>
+                        <th>Teléfono</th>
+                        <th>Sensor enlazado</th>
+                        <th>Alertas 24h</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <!--        Scripts         -->
+
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- Bootstrap.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- JS del Nav Bar -->
+    <script type="text/javascript" src="../proxy.js"></script>
+
+    <script>
+        // creamos el Proxy
+        var elProxy = new Proxy();
+
+
+        // ------------------------------------------------------------------
+        // getTaxistas()
+        // ------------------------------------------------------------------
+        function getTaxistas() {
+            elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        console.log(res[i]);
+                        var newRow = $('<tr class="filaDeTablaTaxistas fila' + i + '" onclick="getInformacionTaxista(' + i + ')">');
+                        var cols = "";
+                        cols += '<td scope="row">' + res[i].idUsuario + '</td>';
+                        cols += '<td>' + res[i].email + '</td>';
+                        cols += '<td>' + res[i].telefono + '</td>';
+                        cols += '<td>' + res[i].idSensor + '</td>';
+
+                        if (res[i].seHaPasado24HSinEnviar) {
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
+                        } else {
+                            cols += '<td>' + '</td>';
+                        }
+
+                        newRow.append(cols);
+                        $("#tablaTaxistas").append(newRow);
+
+                    } else {
+                        console.log("No es taxista");
+                    }
+                }
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // darAltaTaxista()
+        // ------------------------------------------------------------------
+
+        function darAltaTaxista() {
+            if (document.getElementById("inputEmail").value.length != 0 && document.getElementById("inputEmail").value.includes("@taxista.com")) {
+                if (document.getElementById("inputTelefono").value.length != 0) {
+                    if (document.getElementById("inputPassword").value.length != 0) {
+                        if (document.getElementById("inputPassword").value == document.getElementById("inputRepetirPassword").value) {
+                            var inputEmail = document.getElementById("inputEmail").value;
+                            var inputPassword = document.getElementById("inputPassword").value;
+                            var inputTelefono = document.getElementById("inputTelefono").value;
+
+                            elProxy.darAltaTaxista({
+                                    email: inputEmail,
+                                    password: inputPassword,
+                                    telefono: inputTelefono
+                                },
+                                function(res) {
+                                    elProxy.getUltimoIdUsuario(function(res) {
+                                        elProxy.darSensorAUsuario({
+                                            idSensor: 0,
+                                            idUsuario: res.ultimoIdUsuario
+                                        }, function(res) {
+                                        })
+                                    })
+                                })
+                            location.reload();
+                        } else {
+                            //introducir contraseña sin coincidir alert
+                            document.getElementById("errorPassword").innerHTML = "Las contraseñas deben coincidir para poder registrar a alguien"
+                            $('#errorPassword').show();
+                        }
+                    } else {
+                        //introducir contraseña alert
+                        document.getElementById("errorPassword").innerHTML = "La contraseña debe tener al menos 1 carácter"
+                        $('#errorPassword').show();
+                    }
+                } else {
+                    //introducir telefono alert
+                    $('#errorTelefono').show();
+                }
+            } else {
+                //introducir email alert
+                $('#errorEmail').show();
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // borrarTaxista()
+        //
+        // Borra al taxista "seleccionado"
+        // ------------------------------------------------------------------
+        function borrarTaxista() {
+            elProxy.borrarUsuario(document.getElementById("idLabel").innerHTML, function() {
+                console.log("location reload");
+                location.reload();
+            })
+        }
+
+
+        // ------------------------------------------------------------------
+        // editarTaxista()
+        //
+        // edita al taxista "seleccionado"
+        // ------------------------------------------------------------------
+
+        function editarTaxista() {
+            //Deteccion de que hay un email puesto
+            if (document.getElementById('cambiarEmail').value.includes("@taxista.com")) {
+                var jsonEmail = {
+                    email: document.getElementById("emailLabel").innerHTML,
+                    emailNuevo: document.getElementById('cambiarEmail').value
+                }
+                elProxy.cambiarEmail(jsonEmail, function(res) {});
+
+                //Deteccion de que hay un telefono
+                if (document.getElementById("cambiarTelefono").value.length != 0) {
+                    var jsonTelefono = {
+                        email: document.getElementById("emailLabel").innerHTML,
+                        telefono: document.getElementById('cambiarTelefono').value
+                    }
+                    elProxy.cambiarTelefono(jsonTelefono, function(res) {});
+
+                    //Deteccion de que hay o no una contraseña
+                    //  Si no hay ninguna simplemente no la intenta cambiar
+                    if (document.getElementById("cambiarPassword").value.length != 0) {
+                        if (document.getElementById("cambiarPassword").value == document.getElementById("cambiarRepetirPassword").value) {
+                            var jsonPassword = {
+                                email: document.getElementById("emailLabel").innerHTML,
+                                password: document.getElementById('cambiarPassword').value
+                            }
+                            elProxy.cambiarPassword(jsonPassword, function(res) {})
+                            location.reload();
+
+                        } else {
+                            //contraseñas no coinciden
+                            setAlertHide()
+                            $('#errorEditarPassword').show();
+                        }
+                    } else {
+                        //Sin cambiar contraseña
+                        setAlertHide()
+                        location.reload();
+                    }
+                } else {
+                    //cambiar telefono alert
+                    setAlertHide()
+                    $('#errorEditarTelefono').show();
+                }
+            } else {
+                //cambiar email alert
+                setAlertHide()
+                $('#errorEditarEmail').show();
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // getInformacionTaxista()
+        // ------------------------------------------------------------------
+        function getInformacionTaxista(orden) {
+            elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
+                document.getElementById("idLabel").innerHTML = res[orden].idUsuario;
+                document.getElementById("emailLabel").innerHTML = res[orden].email;
+                document.getElementById("telefonoLabel").innerHTML = res[orden].telefono;
+            });
+
+            for (var i = 0; i < document.getElementsByClassName("filaDeTablaTaxistas").length; i++) {
+                document.getElementsByClassName("filaDeTablaTaxistas")[i].classList.remove("selected");
+            }
+
+            var clase = "fila" + orden;
+            document.getElementsByClassName(clase)[0].classList.add("selected");
+
+            document.getElementById("editar").disabled = false;
+            document.getElementById("eliminar").disabled = false;
+        }
+
+        // ------------------------------------------------------------------
+        // getOnLoad()
+        // ------------------------------------------------------------------
+        function getOnLoad() {
+            getTaxistas();
+        }
+
+
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
+        /*function getUltimaMedidaDeUnUsuario() {
+            elProxy.getUsuarios(function(listaUsuarios) {
+                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
+                    document.getElementById("medida").innerHTML = res.valorMedida;
+                    console.log(res)
+                })
+            })
+        }*/
+
+        // ------------------------------------------------------------------
+        // logOut()
+        // --> Cookie
+        // ------------------------------------------------------------------
+        function logOut() {
+            document.cookie = "";
+            window.location.replace('index.html');
+        }
+
+        // ------------------------------------------------------------------
+        // setAlertHide()
+        // ------------------------------------------------------------------
+
+        function setAlertHide() {
+            $('#errorPassword').hide();
+            $('#errorTelefono').hide();
+            $('#errorEmail').hide();
+
+            $('#errorEditarEmail').hide();
+            $('#errorEditarTelefono').hide();
+            $('#errorEditarPassword').hide();
+        }
+
+        //-------------------------------------------------------------------
+        // Para el modal nuevoTaxista y el de editarTaxista
+        //-------------------------------------------------------------------
+        var modalNuevoTaxista = document.getElementById("nuevoTaxistaModal");
+        var btnNuevoTaxista = document.getElementById("introducirNuevoTaxista");
+
+        var modalEditarTaxista = document.getElementById("EditarTaxistaModal");
+        var btnEditarTaxista = document.getElementById("editar");
+
+        // When the user clicks on <span> (x), close the modal
+        function cerrarModal() {
+            modalNuevoTaxista.style.display = "none";
+            modalEditarTaxista.style.display = "none";
+            esconderCambiarContrasenya()
+        }
+
+        // Al pulsar fuera del modal se cierra
+        window.onclick = function(event) {
+            if (event.target == modalNuevoTaxista || event.target == modalEditarTaxista) {
+                modalNuevoTaxista.style.display = "none";
+                modalEditarTaxista.style.display = "none";
+                esconderCambiarContrasenya();
+            }
+        }
+
+        btnNuevoTaxista.onclick = function() {
+            modalNuevoTaxista.style.display = "block";
+            setAlertHide();
+        }
+
+        btnEditarTaxista.onclick = function() {
+            modalEditarTaxista.style.display = "block";
+            setAlertHide();
+            document.getElementById('cambiarEmail').value = document.getElementById("emailLabel").innerHTML;
+            document.getElementById('cambiarTelefono').value = document.getElementById("telefonoLabel").innerHTML;
+        }
+        //-------------------------------------------------------------------
+        //  mostrarCambiarContrasenya()        
+        //-------------------------------------------------------------------
+        function mostrarCambiarContrasenya() {
+            console.log("mostrando")
+            for (var i = 0; i < document.getElementsByClassName('cambiarContrasenya').length; i++) {
+                document.getElementsByClassName('cambiarContrasenya')[i].style.visibility = "visible";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.position = "relative";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.bottom = "auto";
+            }
+
+            document.getElementById("botonCambiarContrasenya").style.visibility = "hidden";
+            document.getElementById("botonCambiarContrasenya").style.position = "absolute";
+            document.getElementById("botonCambiarContrasenya").style.bottom = "0";
+        }
+
+        function esconderCambiarContrasenya() {
+            console.log("escondiendo")
+            for (var i = 0; i < document.getElementsByClassName('cambiarContrasenya').length; i++) {
+                document.getElementsByClassName('cambiarContrasenya')[i].style.visibility = "hidden";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.position = "absolute";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.bottom = "0";
+            }
+
+            document.getElementById("botonCambiarContrasenya").style.visibility = "visible";
+            document.getElementById("botonCambiarContrasenya").style.position = "relative";
+            document.getElementById("botonCambiarContrasenya").style.bottom = "auto";
+        }
+
+    </script>
+
+</body>
+
+</html>

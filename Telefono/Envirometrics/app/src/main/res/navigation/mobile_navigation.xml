@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_map">
+
+    <fragment
+        android:id="@+id/nav_map"
+        android:name="com.example.envirometrics.ui.home.HomeFragment"
+        android:label="@string/menu_mapa"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_perfil"
+        android:name="com.example.envirometrics.ui.perfil.PerfilFragment"
+        android:label="@string/menu_perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+    <fragment
+        android:id="@+id/nav_resumen_dia"
+        android:name="com.example.envirometrics.ui.resumenDia.ResumenDiaFragment"
+        android:label="Resumen diario"
+        tools:layout="@layout/fragment_perfil"/>
+
+    <fragment
+        android:id="@+id/nav_ajustes"
+        android:name="com.example.envirometrics.ui.tools.ToolsFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_tools" />
+
+    <fragment
+        android:id="@+id/nav_cerrar_sesion"
+        android:name="com.example.envirometrics.ui.cerrraSesion.CerrarSesionFragment"
+        android:label="@string/cerrar_sesion"
+        tools:layout="@layout/fragment_cerrar_sesion" />
+
+    <fragment
+        android:id="@+id/nav_QR"
+        android:name="com.example.envirometrics.ui.QR.QRFragment"
+        android:label="Escaner QR"
+        tools:layout="@layout/fragment_qr" />
+    <fragment
+        android:id="@+id/nav_info"
+        android:name="com.example.envirometrics.ui.informacion.InfoFragment"
+        android:label="Información gases"
+        tools:layout="@layout/fragment_info" />
+
+</navigation>

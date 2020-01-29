@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="../proxy.js"></script>
+    <style>
+        table,
+        td {
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <p>Click the button to add a new row at the first position of the table and then add cells and content.</p>
+
+    <table id="myTable">
+        <tr>
+            <td>Row1 cell1</td>
+            <td>Row1 cell2</td>
+        </tr>
+        <tr>
+            <td>Row2 cell1</td>
+            <td>Row2 cell2</td>
+        </tr>
+        <tr>
+            <td>Row3 cell1</td>
+            <td>Row3 cell2</td>
+        </tr>
+    </table>
+    <br>
+
+    <button type="button" onclick="myFunction()">Try it</button>
+
+    <script>
+        var elProxy = new Proxy();
+
+        function myFunction() {
+            var table = document.getElementById("myTable");
+
+            elProxy.getUsuarios(function(res) {
+
+                for (let i = 0; i < res.length; i++) {
+                    elProxy.getUltimaMedidaDeUnUsuario(i, function(res) {
+
+                        var row = table.insertRow(i);
+                        var cell1 = row.insertCell(i);
+                        cell1.innerHTML = res.idTipoMedida;
+
+                    })
+                }
+
+            })
+
+        }
+
+    </script>
+
+</body>
+
+</html>

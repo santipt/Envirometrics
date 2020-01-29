@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<script type="text/javascript" src="../proxy.js"></script>
+<script>
+    var elProxy = new Proxy();
+
+    function quanEsCarrega() {
+
+        console.log("Plana UX carregada.")
+
+    }
+
+    async function iniciarSesion(_nombre, _password) {
+
+        console.log(_nombre + " " + _password);
+
+        var json = {
+            nombre: _nombre,
+            password: _password
+        }
+
+        console.log(json)
+
+        elProxy.iniciarSesion(json, function(res) {
+
+            if (res == true) {
+                /*window.location.replace("http://www.google.com");*/
+                document.cookie = JSON.stringify(json);
+            } else {
+                alert("Credenciales erróneas")
+            }
+            console.log(res)
+        })
+
+        console.log("Voy a iniciarSesion")
+
+    }
+
+    async function iniciarSesionOnLoad() {
+        var laCookie = JSON.parse(document.cookie)
+        var nombre = laCookie.nombre;
+        var password = laCookie.password;
+        await iniciarSesion(nombre, password)
+    }
+
+    async function iniciarSesionOnClickButton() {
+        var nombre = document.getElementById("nombre").value;
+        var password = document.getElementById("password").value;
+        await iniciarSesion(nombre, password)
+    }
+
+    function getUsuarios() {
+        elProxy.getUsuarios(function(res) {
+            console.log(res)
+        });
+    }
+
+    function getUltimaMedidaDeUnUsuario() {
+        elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
+            console.log(res)
+        })
+    }
+</script>
+
+<body onload="iniciarSesionOnLoad()">
+
+    <h2> Iniciar Sesion </h2>
+
+    <br>
+
+    <input id="nombre">
+
+    <br>
+
+    <input id="password">
+
+    <br>
+
+    <button onclick="iniciarSesionOnClickButton()"> Iniciar Sesión </button>
+
+    <button onclick="getUsuarios()"> getUsuarios </button>
+
+    <button onclick="getUltimaMedidaDeUnUsuario()"> getUltimaMedidaDeUnUsuario </button></html>
