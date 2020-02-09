@@ -1,5 +1,5 @@
 // .....................................................................
-// Autor: Emilio Esteve Peiró
+// Autor: Santiago Pérez Torres
 // Fecha inicio: 24/10/2019
 // Última actualización: 24/10/2019
 // mainServidorREST.js
