@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "jsdom": "^15.2.1",
-    "simple-crypto-js": "^2.2.0",
+    "simple-crypto-js": "^2.3.0",
     "sjcl": "^1.0.8",
     "sqlite3": "*"
   },
