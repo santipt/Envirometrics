@@ -21,7 +21,7 @@
     "path": "^0.12.7",
     "pdf2json": "^1.1.8",
     "request": "*",
-    "simple-crypto-js": "^2.2.0",
+    "simple-crypto-js": "^2.3.0",
     "sqlite3": "*"
   },
   "devDependencies": {
