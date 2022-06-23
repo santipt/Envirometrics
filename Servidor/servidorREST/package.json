@@ -13,7 +13,7 @@
     "cors": "^2.8.5",
     "express": "*",
     "form-data": "^3.0.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.5.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "multi-part": "^3.0.0",
